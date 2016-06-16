@@ -1,0 +1,70 @@
+Part I
+1) How many copies of the book titled The Lost Tribe are owned by the
+library branch whose name is "Sharpstown"?
+
+SELECT noOfCopies
+FROM book_copies as bkcp
+JOIN book ON bkcp.bookId = book.bookId
+JOIN library_branch AS lib ON bkcp.branchId = lib.branchId
+WHERE book.title = "The Lost Tribe" AND lib.branchName = "Sharpstown";
+
+2) How many copies of the book titled The Lost Tribe are owned by each
+ library branch?
+
+SELECT noOfCopies, lib.branchName
+FROM book_copies as bkcp
+JOIN book ON bkcp.bookId = book.bookId
+JOIN library_branch AS lib ON bkcp.branchId = lib.branchId
+WHERE book.title = "The Lost Tribe";
+
+3) Retrieve the names of all borrowers who do not have any books
+checked out
+
+SELECT	DISTINCT bo.name
+FROM 	borrower AS bo
+WHERE	bo.cardId NOT EXISTS
+		(
+			SELECT	1
+			FROM 	book_loans AS loans
+			WHERE	bo.cardId = loans.bookId
+		);
+
+4) For each book that is loaned out from the "Sharpstown" branch and
+whose DueDate is today, retrieve the book title, the borrower's name,
+and the borrower's address.
+
+SELECT	book.title, bo.name, bo.address
+FROM 	book
+JOIN	book_loans AS loans ON loans.bookId = book.bookId
+JOIN	borrower AS bo ON bo.cardId = bo.cardId
+JOIN	library_branch AS lib ON lib.branchId = loans.branchId
+WHERE	lib.branchName = "Sharpstown" AND loans.dueDate = CURDATE();
+
+5) For each library branch, retrieve the branch name and the total number
+of books loaned out from that branch.
+
+SELECT	lib.branchName, COUNT(loan.bookId)
+FROM	library_branch AS lib
+JOIN	book_loans AS loan ON loan.branchId = lib.branchId;
+
+6) Retrieve the names, addresses, and number of books checked out for
+all borrowers who have more than five books checked out.
+
+SELECT 	bo.name, bo.address, COUNT( DISTINCT loans.bookId )
+FROM 	borrower AS bo
+JOIN	book_loans AS loans ON loans.cardId = bo.cardId
+GROUP BY bo.name
+WHERE	COUNT(loans.bookId) > 5
+
+
+7) For each book authored (or co-authored) by "Stephen King", retrieve the
+title and the number of copies owned by the library branch whose name is
+"Central"
+
+SELECT	title, noOfCopies
+FROM 	book
+JOIN	book_copies AS bkcp ON book.bookId = bkcp.bookId
+JOIN	library_branch AS lib ON lib.branchId = bkcp.branchId
+JOIN	book_authors AS bkau ON bkau.bookId = book.bookId
+JOIN	author ON author.authorId = bkau.authorId
+WHERE	lib.branchName = "Central" AND author.authorName = "Stephen King";
