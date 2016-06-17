@@ -30,6 +30,18 @@ public class BookDAO extends BaseDAO {
 			return true;
 	}
 	
+	public void showAll(List<Book> books) throws ClassNotFoundException, SQLException
+	{
+		System.out.printf("\nBOOKS\n");
+		for( Book b : books )
+		{
+			System.out.println("Book Title: " + b.getTitle());
+			System.out.println("Book ID: "+ b.getBookId());
+			System.out.println("-----------------------");
+			
+		}
+	}
+	
 	public List<Book> readAll() throws ClassNotFoundException, SQLException{
 		PreparedStatement pstmt = getConnection().prepareStatement("select * from tbl_book");
 		List<Book> books = new ArrayList<Book>();

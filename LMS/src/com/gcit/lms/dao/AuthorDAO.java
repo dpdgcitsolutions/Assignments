@@ -13,13 +13,14 @@ public class AuthorDAO extends BaseDAO{
 
 	public void showAll(List<Author> authors) throws ClassNotFoundException, SQLException
 	{
+		System.out.printf("\nAUTHORS\n");
 		for( Author a : authors )
 		{
 			System.out.println("Author Name: " + a.getAuthorName());
 			System.out.println("Author ID: "+ a.getAuthorId());
 			if( a.getBooks() == null )
 			{
-				System.out.println("-----------------------");
+				System.out.println("----------------------");
 				continue;
 			}
 			for( Book b : a.getBooks() )
@@ -27,8 +28,7 @@ public class AuthorDAO extends BaseDAO{
 				System.out.println("Book Title: " + b.getTitle());
 				System.out.println("Book ID: "+ b.getBookId());
 			}
-			System.out.println("-----------------------");
-			
+			System.out.println("-----------------------?");
 		}
 	}
 	
@@ -65,7 +65,7 @@ public class AuthorDAO extends BaseDAO{
 			a.setAuthorId(rs.getInt("authorId"));
 			a.setAuthorName(rs.getString("authorName"));
 			BookDAO b = new BookDAO();
-			List<Book> books =  (List<Book>) b.read("SELECT * FROM tbl_book WHERE bookId IN (SELECT bookId FROM tbl_book_authors WHERE authorId = " + a.getAuthorId() + ")", null);
+			List<Book> books = (List<Book>) b.read("SELECT * FROM tbl_book WHERE bookId IN (SELECT bookId FROM tbl_book_authors WHERE authorId = " + a.getAuthorId() + ")", null);
 			a.setBooks(books);
 			authors.add(a);
 		}

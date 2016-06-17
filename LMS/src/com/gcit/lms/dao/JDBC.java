@@ -69,9 +69,9 @@ public class JDBC {
 //		book.setTitle(bookTitle);
 //		bookDAO.insertBook(book);
 		
-		// Read all authors and books from DB
-		List<Author> authors = authorDAO.readAll();
-		authorDAO.showAll(authors);
+//		// Read all authors and books from DB
+//		List<Author> authors = authorDAO.readAll();
+//		authorDAO.showAll(authors);
 		
 		// Update author
 //		Author author = new Author();
@@ -79,7 +79,13 @@ public class JDBC {
 //		author.setAuthorId(14);
 //		authorDAO.updateAuthor(author);
 		
-		// Map book with authors
-		bkauDAO.insert(authorDAO, bookDAO, bkauDAO);
+//		// Map book with authors
+//		bkauDAO.insert(authorDAO, bookDAO, bkauDAO);
+		
+//		// Print all books
+//		List<Book> books = bookDAO.readAll();
+//		bookDAO.showAll(books);
+		
+		System.out.println("Last line");
 	}
 }
