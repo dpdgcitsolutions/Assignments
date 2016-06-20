@@ -1,0 +1,57 @@
+@CHARSET "ISO-8859-1";
+
+html, body {
+	padding: 30px;
+}
+
+body {
+	background-image: url("http://blog.bibleclipart.net/wp-content/uploads/2015/06/brown-paper-craft-background.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+h2 {
+	font-size: 36px;
+}
+
+.title {
+	padding-bottom: 10px;
+	padding-left: 40px;
+}
+
+.jumbotron {
+  background-image:url('http://www.anchormovingnj.com/library.jpg');
+  height: 300px;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.jumbotron h2 {
+  color: #EB7E48;
+  text-shadow: 2px 2px 4px #000000;
+  font-size: 48px;  
+  font-family: 'Georgia', sans-serif;
+  font-weight: bold;
+}
+
+.jumbotron p {
+  font-size: 20px;
+  color: #EB7E48;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+.users a {
+	color: black;
+	font-size: 28px;
+	padding: 14px 10px;
+}
+
+.strokeme
+{
+    color: white;
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;  
+}
