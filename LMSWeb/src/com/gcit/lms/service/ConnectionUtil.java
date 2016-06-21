@@ -9,7 +9,7 @@ public class ConnectionUtil {
 	private static String driver= "com.mysql.jdbc.Driver";
 	private static String url = "jdbc:mysql://localhost/library";
 	private static String username = "root";
-	private static String pass = "Kat6825537674";
+	private static String pass = "Katyroot";
 	
 	public Connection getConnection() throws ClassNotFoundException, SQLException{
 		Class.forName(driver);

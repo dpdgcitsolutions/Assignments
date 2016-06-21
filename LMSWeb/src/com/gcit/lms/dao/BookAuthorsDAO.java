@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.gcit.lms.domain.Author;
-import com.gcit.lms.domain.BookAuthors;
+import com.gcit.lms.domain.Book;
 
 public class BookAuthorsDAO extends BaseDAO {
 
@@ -17,23 +17,25 @@ public class BookAuthorsDAO extends BaseDAO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void insertBookAuthors(BookAuthors bkau) throws ClassNotFoundException, SQLException{
-		save("insert into tbl_book_authors (bookId, authorId) values (?,?)", new Object[] {bkau.getBookId(), bkau.getAuthorId()});
+	public void insertBookAuthors(Book book) throws ClassNotFoundException, SQLException{
+		for(Author a: book.getAuthors()) {
+			save("insert into tbl_book_authors (bookId, authorId) values (?,?)", new Object[] {book.getBookId(), a.getAuthorId()});
+		}
 	}
 	
-	public void updateBookAuthors(BookAuthors bkau) throws ClassNotFoundException, SQLException{
-		save("update tbl_book_authors set bookId = ?, authorId = ? where bookId = ?, authorId = ?", new Object[] {bkau.getBookId(), bkau.getAuthorId()});
-	}
-	
-	public void updateAuthor(BookAuthors bkau) throws ClassNotFoundException, SQLException
-	{
-		save("update tbl_book_authors set authorId = ? where bookId = ?", new Object[] {bkau.getAuthorId(), bkau.getBookId()} );
-	}
-	
-	public void updateBook(BookAuthors bkau) throws ClassNotFoundException, SQLException
-	{
-		save("update tbl_book_authors set bookId = ? where authorId = ?", new Object[] {bkau.getBookId(), bkau.getAuthorId()} );
-	}
+//	public void updateBookAuthors(BookAuthors bkau) throws ClassNotFoundException, SQLException{
+//		save("update tbl_book_authors set bookId = ?, authorId = ? where bookId = ?, authorId = ?", new Object[] {bkau.getBookId(), bkau.getAuthorId()});
+//	}
+//	
+//	public void updateAuthor(BookAuthors bkau) throws ClassNotFoundException, SQLException
+//	{
+//		save("update tbl_book_authors set authorId = ? where bookId = ?", new Object[] {bkau.getAuthorId(), bkau.getBookId()} );
+//	}
+//	
+//	public void updateBook(BookAuthors bkau) throws ClassNotFoundException, SQLException
+//	{
+//		save("update tbl_book_authors set bookId = ? where authorId = ?", new Object[] {bkau.getBookId(), bkau.getAuthorId()} );
+//	}
 	
 //	public static void insert(AuthorDAO authorDAO, BookDAO bookDAO, BookAuthorsDAO bkauDAO) throws ClassNotFoundException, SQLException
 //	{
@@ -58,30 +60,36 @@ public class BookAuthorsDAO extends BaseDAO {
 //		bkauDAO.insertBookAuthors(bkau);
 //	}
 	
-	public void deleteBookAuthors(BookAuthors bkau) throws ClassNotFoundException, SQLException{
-		save("delete from tbl_book_authors where where bookId = ?, authorId = ?", new Object[] {bkau.getBookId(), bkau.getAuthorId()});
-	}
-	@Override
-	public List<BookAuthors> extractData(ResultSet rs) throws SQLException {
-		List<BookAuthors> bkau = new ArrayList<BookAuthors>();
-		//BookDAO bdao = new BookDAO(connection);
-		while(rs.next()){
-			BookAuthors b = new BookAuthors();
-			b.setAuthorId(rs.getInt("authorId"));
-			b.setBookId(rs.getInt("bookId"));
-//			try {
-//				a.setBooks(bdao.readFirstLevel("select * from tbl_book where bookId IN(select bookId from tbl_book_authors where authorId = ?", new Object[]{a.getAuthorId()}));
-//			} catch (ClassNotFoundException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-			bkau.add(b);
-		}
-		return bkau;
-	}
+//	public void deleteBookAuthors(BookAuthors bkau) throws ClassNotFoundException, SQLException{
+//		save("delete from tbl_book_authors where where bookId = ?, authorId = ?", new Object[] {bkau.getBookId(), bkau.getAuthorId()});
+//	}
+//	@Override
+//	public List<BookAuthors> extractData(ResultSet rs) throws SQLException {
+//		List<BookAuthors> bkau = new ArrayList<BookAuthors>();
+//		//BookDAO bdao = new BookDAO(connection);
+//		while(rs.next()){
+//			BookAuthors b = new BookAuthors();
+//			b.setAuthorId(rs.getInt("authorId"));
+//			b.setBookId(rs.getInt("bookId"));
+////			try {
+////				a.setBooks(bdao.readFirstLevel("select * from tbl_book where bookId IN(select bookId from tbl_book_authors where authorId = ?", new Object[]{a.getAuthorId()}));
+////			} catch (ClassNotFoundException e) {
+////				// TODO Auto-generated catch block
+////				e.printStackTrace();
+////			}
+//			bkau.add(b);
+//		}
+//		return bkau;
+//	}
 
 	@Override
 	public List<?> extractDataFirstLevel(ResultSet rs) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<?> extractData(ResultSet rs) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

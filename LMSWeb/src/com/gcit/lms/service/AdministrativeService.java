@@ -12,8 +12,6 @@ import com.gcit.lms.dao.GenreDAO;
 import com.gcit.lms.dao.PublisherDAO;
 import com.gcit.lms.domain.Author;
 import com.gcit.lms.domain.Book;
-import com.gcit.lms.domain.BookAuthors;
-import com.gcit.lms.domain.BookGenres;
 import com.gcit.lms.domain.Genre;
 import com.gcit.lms.domain.Publisher;
 
@@ -67,22 +65,14 @@ public class AdministrativeService {
 		Connection conn = util.getConnection();
 		try{
 			BookDAO bdao = new BookDAO(conn);
-			BookAuthorsDAO bkaudao = new BookAuthorsDAO(conn);
-			BookGenresDAO bgdao = new BookGenresDAO(conn);
-			Integer bookId = bdao.saveWithID("insert into tbl_book (title, pubId) values (?,?)", new Object[] {book.getTitle(), book.getPublisher().getPublisherId()} );
+			Integer bookId = bdao.saveBookWithID(book);
 			book.setBookId(bookId);
-			for(Author a: book.getAuthors()) {
-				BookAuthors bkau = new BookAuthors();
-				bkau.setAuthorId(a.getAuthorId());
-				bkau.setBookId(bookId);
-				bkaudao.insertBookAuthors(bkau);
-			}
-			for( Genre g: book.getGenres() ) {
-				BookGenres bg = new BookGenres();
-				bg.setBookId(bookId);
-				bg.setGenreId(g.getGenre_id());
-				bgdao.insertBookGenres(bg);
-			}
+			
+			BookAuthorsDAO bkaudao = new BookAuthorsDAO(conn);
+			bkaudao.insertBookAuthors(book);
+			BookGenresDAO bgdao = new BookGenresDAO(conn);
+			bgdao.insertBookGenres(book);
+			
 			conn.commit();
 		}catch (Exception e){
 			e.printStackTrace();

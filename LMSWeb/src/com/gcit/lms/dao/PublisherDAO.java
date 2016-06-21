@@ -33,6 +33,20 @@ public class PublisherDAO extends BaseDAO{
 			p.setPublisherName(rs.getString("publisherName"));
 			p.setPublisherAddress(rs.getString("publisherAddress"));
 			p.setPublisherPhone(rs.getString("publisherPhone"));
+			try {
+				BookDAO bdao = new BookDAO(connection);
+				List<Book> books = bdao.readFirstLevel("select * from tbl_book where pubId = ?", new Object[]{p.getPublisherId()});
+				if( books.isEmpty() ){
+					Book b = new Book();
+					b.setTitle("N/A");
+					books.add(b);
+				}
+				p.setBooks(books);;
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			publishers.add(p);
 		}
 		return publishers;
