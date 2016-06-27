@@ -8,9 +8,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-import com.gcit.lms.domain.Author;
 
 public abstract class BaseDAO {
+	
+	private int pageNo = -1;
+	
+	private int pageSize = 10;
 	
 	public Connection connection;
 	
@@ -55,6 +58,11 @@ public abstract class BaseDAO {
 	
 	
 	public <T> List<T> read(String query, Object[] vals) throws SQLException, ClassNotFoundException{
+		int pageNo = getPageNo();
+		if(pageNo > 0){
+			int index = (pageNo-1)*10;
+			query += " LIMIT "+index+" , "+getPageSize();
+		}
 		PreparedStatement pstmt = connection.prepareStatement(query);
 		if(vals !=null){
 			int count = 1;
@@ -85,4 +93,48 @@ public abstract class BaseDAO {
 	}
 
 	public abstract List<?> extractDataFirstLevel(ResultSet rs) throws SQLException;
+
+	/**
+	 * @return the pageNo
+	 */
+	public int getPageNo() {
+		return pageNo;
+	}
+
+	/**
+	 * @param pageNo the pageNo to set
+	 */
+	public void setPageNo(int pageNo) {
+		this.pageNo = pageNo;
+	}
+
+	/**
+	 * @return the pageSize
+	 */
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	/**
+	 * @param pageSize the pageSize to set
+	 */
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+	
+	public Integer readCount(String query, Object[] vals) throws SQLException{
+		PreparedStatement pstmt = connection.prepareStatement(query);
+		if(vals !=null){
+			int count = 1;
+			for(Object o: vals){
+				pstmt.setObject(count, o);
+				count ++;
+			}
+		}
+		ResultSet rs = pstmt.executeQuery();
+		while(rs.next()){
+			return rs.getInt("count");
+		}
+		return null;
+	}
 }

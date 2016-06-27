@@ -30,7 +30,6 @@
 	<table class="table table-hover">
 		<thead>
 			<tr>
-				<th>Book ID</th>
 				<th>Book Title</th>
 				<th>Author</th>
 				<th>Genre</th>
@@ -42,7 +41,6 @@
 		<tbody>
 		<% for(Book b : books) {%>
 			<tr>
-				<td><%=b.getBookId() %></td>
 				<td><%=b.getTitle() %></td>
 				<td><%=b.getAuthors().get(0).getAuthorName() %></td>
 				<td><%=b.getGenres().get(0).getGenre_name() %></td>

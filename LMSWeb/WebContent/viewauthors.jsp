@@ -29,7 +29,6 @@
 <table class="table table-hover">
 	<thead>
 	<tr>
-		<th>Author ID</th>
 		<th>Author Name</th>
 		<th>Book Title</th>
 		<th>Edit Author</th>
@@ -39,7 +38,6 @@
 	<tbody>
 	<%for(Author a: authors){ %>
 		<tr>
-			<td><%=a.getAuthorId() %></td>
 			<td><%=a.getAuthorName() %></td>
 			<td><%=a.getBooks().get(0).getTitle() %></td>
 			<td><button type="button" class="btn btn-warning" onclick="javascript:location.href='editAuthor?authorId=<%=a.getAuthorId()%>'">EDIT</button></td>

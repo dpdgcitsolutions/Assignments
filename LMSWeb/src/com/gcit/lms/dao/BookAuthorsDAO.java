@@ -23,8 +23,12 @@ public class BookAuthorsDAO extends BaseDAO {
 		}
 	}
 	
-//	public void updateBookAuthors(BookAuthors bkau) throws ClassNotFoundException, SQLException{
-//		save("update tbl_book_authors set bookId = ?, authorId = ? where bookId = ?, authorId = ?", new Object[] {bkau.getBookId(), bkau.getAuthorId()});
+	public void deleteBookAuthors(Book book) throws ClassNotFoundException, SQLException{
+		save("delete from tbl_book_authors where bookId = ?", new Object[] {book.getBookId()});
+	}
+//	public void updateBookAuthors(Book book, int authorId) throws ClassNotFoundException, SQLException{
+//		for( Author a : book.getAuthors() )
+//			save("update tbl_book_authors set authorId = ? where bookId = ? and authorId = ?", new Object[] {a.getAuthorId(), book.getBookId(), authorId});
 //	}
 //	
 //	public void updateAuthor(BookAuthors bkau) throws ClassNotFoundException, SQLException

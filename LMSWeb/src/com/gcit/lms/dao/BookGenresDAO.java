@@ -20,6 +20,10 @@ public class BookGenresDAO extends BaseDAO{
 		}
 	}
 	
+	public void deleteBookGenres(Book book) throws ClassNotFoundException, SQLException{
+		save("delete from tbl_book_genres where bookId = ?", new Object[] {book.getBookId()});
+	}
+	
 //	public void updateBookGenres(BookGenres bg) throws ClassNotFoundException, SQLException{
 //		save("update tbl_book_genres set genre_id = ?, bookId = ? where genre_id = ?, bookId = ?", new Object[] {bg.getGenreId(), bg.getBookId()});
 //	}

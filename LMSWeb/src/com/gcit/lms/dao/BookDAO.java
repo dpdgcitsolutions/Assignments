@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gcit.lms.domain.Book;
+import com.gcit.lms.domain.LibraryBranch;
 import com.gcit.lms.domain.Publisher;
 
 public class BookDAO extends BaseDAO {
@@ -29,7 +30,7 @@ public class BookDAO extends BaseDAO {
 	}
 	
 	public void updateBook(Book book) throws ClassNotFoundException, SQLException{
-		save("update tbl_book set title = ? where bookId = ?", new Object[] {book.getTitle(), book.getBookId()});
+		save("update tbl_book set title = ?, pubId = ? where bookId = ?", new Object[] {book.getTitle(), book.getPublisher().getPublisherId(), book.getBookId()});
 	}
 	
 	public void deleteBook(Book book) throws ClassNotFoundException, SQLException{
@@ -46,6 +47,23 @@ public class BookDAO extends BaseDAO {
 
 	public List<Book> readAll() throws ClassNotFoundException, SQLException{
 		return read("select * from tbl_book", null);
+	}
+	
+	public List<Book> readBooksNotInBranch(int branchId) throws ClassNotFoundException, SQLException {
+		return readFirstLevel("select * from tbl_book where bookId not in (select bookId from tbl_book_copies where branchId = ?)", new Object[]{branchId});
+	}
+	
+	public Book readOne(Book book) throws ClassNotFoundException, SQLException {
+		List<Book> books = read("select * from tbl_book where bookId =?", new Object[] {book.getBookId()});
+		for(Book b: books){
+			return b;
+		}
+		return null;
+	}
+	
+	public List<Book> viewAvailableBooks(Integer branchId) throws ClassNotFoundException, SQLException {
+		List<Book> books = read("select * from tbl_book where bookId in (select bookId from tbl_book_copies where branchId = ? and noOfCopies > 0)", new Object[]{branchId});
+		return books;
 	}
 
 	@Override
@@ -90,8 +108,6 @@ public class BookDAO extends BaseDAO {
 				e.printStackTrace();
 			}
 			books.add(b);
-			
-			
 		}
 		return books;
 	}
@@ -107,4 +123,8 @@ public class BookDAO extends BaseDAO {
 		}
 		return books;
 	}
+
+	
+
+	
 }

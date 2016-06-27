@@ -29,7 +29,6 @@
 	<table class="table table-hover">
 		<thead>
 			<tr>
-				<th>ID</th>
 				<th>Name</th>
 				<th>Address</th>
 				<th>Phone Number</th>
@@ -40,7 +39,6 @@
 		<tbody>
 		<% for(Publisher p : pubs) {%>
 			<tr>
-				<td><%=p.getPublisherId() %></td>
 				<td><%=p.getPublisherName() %></td>
 				<td><%=p.getPublisherAddress() %></td>
 				<td><%=p.getPublisherPhone() %></td>

@@ -29,11 +29,39 @@ public class AuthorDAO extends BaseDAO{
 	}
 	
 	public void updateAuthor(Author author) throws ClassNotFoundException, SQLException{
-		save("update  tbl_author set authorName = ? where authorId = ?", new Object[] {author.getAuthorName(), author.getAuthorId()});
+		save("update tbl_author set authorName = ? where authorId = ?", new Object[] {author.getAuthorName(), author.getAuthorId()});
 	}
 	
-	public List<Author> readAll() throws ClassNotFoundException, SQLException{
+	
+	public List<Author> readAll(int pageNo) throws ClassNotFoundException, SQLException{
+		setPageNo(pageNo);
 		return read("select * from tbl_author", null);
+	}
+	
+	public List<Author> readAllFirstLevel(int pageNo) throws ClassNotFoundException, SQLException{
+		setPageNo(pageNo);
+		return readFirstLevel("select * from tbl_author", null);
+	}
+	
+	public Author readOne(Author author) throws ClassNotFoundException, SQLException{
+		List<Author> authors = read("select * from tbl_author where authorId =?", new Object[] {author.getAuthorId()});
+		for(Author a: authors){
+			return a;
+		}
+		return null;
+	}
+	
+	public Integer getCount() throws ClassNotFoundException, SQLException{
+		return readCount("select count(*) as count from tbl_author", null);
+	}
+	
+	public List<Author> readBySearchString(String searchString, int pageNo) throws ClassNotFoundException, SQLException {
+		setPageNo(pageNo);
+		if( searchString.equals("") )
+			searchString = "%%";
+		else
+			searchString = "%" + searchString + "%";
+		return read("select * from tbl_author where authorName like ?", new Object[] {searchString});
 	}
 
 	@Override
@@ -72,4 +100,6 @@ public class AuthorDAO extends BaseDAO{
 		}
 		return authors;
 	}
+
+	
 }

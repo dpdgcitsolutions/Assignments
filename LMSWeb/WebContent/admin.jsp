@@ -21,12 +21,14 @@
 
 <div class="users">
         <div class="container">
-<a href="index.html" style="font-size:20px;">Back</a><br/><br/>
-<a href="addStuffs.jsp">Add Author and Book</a><br/>
+<a href="index.jsp" style="font-size:20px;">Back</a><br/><br/>
+<a href="addstuffs.jsp">Add Author and Book</a><br/>
+<a href="addbranch.jsp">Add Library Branch</a><br/>
 <a href="viewauthors.jsp">View Authors</a><br/>
 <a href="viewbooks.jsp">View Books</a><br/>
 <a href="viewpublishers.jsp">View Publishers</a><br/>
 <a href="viewgenres.jsp">View Genres</a><br/>
+<a href="viewbranches.jsp">View Library Branches</a><br/>
 </div>
 </div>
 

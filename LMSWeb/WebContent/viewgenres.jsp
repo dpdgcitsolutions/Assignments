@@ -29,7 +29,6 @@
 	<table class="table table-hover">
 		<thead>
 			<tr>
-				<th>ID</th>
 				<th>Name</th>
 				<th>Edit Publisher</th>
 				<th>Delete Publisher</th>
@@ -38,7 +37,6 @@
 		<tbody>
 		<% for(Genre g : genres) {%>
 			<tr>
-				<td><%=g.getGenre_id() %></td>
 				<td><%=g.getGenre_name() %></td>
 				<td><button type="button" class="btn btn-warning" onclick="javascript:location.href='editAuthor?authorId=<%=g.getGenre_id()%>'">EDIT</button></td>
 				<td><button type="button" class="btn btn-danger" onclick="javascript:location.href='deleteAuthor?authorId=<%=g.getGenre_id()%>'">DELETE</button></td>

@@ -22,6 +22,10 @@ public class GenreDAO extends BaseDAO {
 	public List<Genre> readAll() throws ClassNotFoundException, SQLException{
 		return read("select * from tbl_genre", null);
 	}
+	
+	public List<Genre> readAllFirstLevel() throws ClassNotFoundException, SQLException{
+		return readFirstLevel("select * from tbl_genre", null);
+	}
 
 	@Override
 	public List<Genre> extractData(ResultSet rs) throws SQLException {
