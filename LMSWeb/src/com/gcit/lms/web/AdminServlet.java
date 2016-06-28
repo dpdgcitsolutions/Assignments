@@ -25,7 +25,7 @@ import com.gcit.lms.service.AdministrativeService;
  * Servlet implementation class AdminServlet
  */
 @WebServlet({"/admin","/admin/addStuffs", "/admin/editAuthor","/admin/addBranch", 
-	"/admin/pageAuthors", "/admin/editBranch", "/admin/editBookCopies", "/admin/addBookCopies", "/admin/addBorrower", "/admin/searchAuthors",
+	"/admin/pageAuthors", "/admin/pageBooks", "/admin/editBranch", "/admin/editBookCopies", "/admin/addBookCopies", "/admin/addBorrower", "/admin/searchAuthors", "/admin/searchBooks",
 	"/admin/editBook"})
 public class AdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -54,8 +54,15 @@ public class AdminServlet extends HttpServlet {
 			pageAuthors(request, response);
 //			forwardPath = "viewauthors.jsp";
 			break;
+		case "/admin/pageBooks":
+			pageBooks(request, response);
+//			forwardPath = "viewauthors.jsp";
+			break;
 		case "/admin/searchAuthors":
 			searchAuthors(request, response);
+			break;
+		case "/admin/searchBooks":
+			searchBooks(request, response);
 			break;
 		case "/admin":
 			forwardPath = "admin/admin.jsp";
@@ -211,6 +218,7 @@ public class AdminServlet extends HttpServlet {
 				str.append("<td><button type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#authorModal' href='editauthor.jsp?authorId="+a.getAuthorId()+"'>EDIT</button></td>");
 				str.append("<td><button type='button' class='btn btn-sm btn-danger' onclick='javascript:location.href='deleteAuthor?authorId="+a.getAuthorId()+"'>DELETE</button></td></tr>");
 			}
+			str.append("</tbody>");
 			response.getWriter().append(str);
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
@@ -218,6 +226,66 @@ public class AdminServlet extends HttpServlet {
 			response.getWriter().append(str);
 		}
 	}
+	
+	private void searchBooks(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		List<Book> books = new ArrayList<Book>();
+		String searchString = request.getParameter("searchString");
+		System.out.println("Search String: " + searchString);
+		StringBuffer str = new StringBuffer();
+		try {
+			if( searchString == null )
+				searchString = "";
+			books = service.viewBooksBySearchString(searchString, 1);
+			request.setAttribute("books", books);
+			str.append("<thead><tr><th>Book Title</th><th>Author</th><th>Genre</th><th>Publisher</th><th>Edit Book</th><th>Delete Book</th></tr></thead><tbody>");
+			for (Book b : books) {
+				str.append("<tr><td>"+b.getTitle()+"</td>");
+				str.append("<td>"+b.getAuthors().get(0).getAuthorName()+"</td>");
+				str.append("<td>"+b.getGenres().get(0).getGenre_name()+"</td>");
+				str.append("<td>"+b.getPublisher().getPublisherName()+"</td>");
+				str.append("<td><button type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#bookModal' href='editbook.jsp?bookId=" + b.getBookId() + "'>EDIT</button></td>");
+				str.append("<td><button type='button' class='btn btn-sm btn-danger' onclick='javascript:location.href='deleteAuthor?authorId="+b.getBookId()+"'>DELETE</button></td></tr>");
+			}
+			str.append("</tbody>");
+			response.getWriter().append(str);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			response.getWriter().append(str);
+		}
+	}
+	
+	private void pageBooks(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		// TODO Auto-generated method stub
+		List<Book> books = new ArrayList<Book>();
+		int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+		String searchString = request.getParameter("searchString");
+		if( searchString == null ){
+			searchString = "";
+			System.out.println("Page String: NULL");
+		}
+			
+		System.out.println("Page String: " + searchString);
+		StringBuffer str = new StringBuffer();
+		try {
+			books = service.viewBooksBySearchString(searchString, pageNo);
+			str.append("<thead><tr><th>Book Title</th><th>Author</th><th>Genre</th><th>Publisher</th><th>Edit Book</th><th>Delete Book</th></tr></thead><tbody>");
+			for (Book b : books) {
+				str.append("<tr><td >"+b.getTitle()+"</td>");
+				str.append("<td>"+b.getAuthors().get(0).getAuthorName()+"</td>");
+				str.append("<td >"+b.getGenres().get(0).getGenre_name()+"</td>");
+				str.append("<td >"+b.getPublisher().getPublisherName()+"</td>");
+				str.append("<td><button type='button' class='btn btn-sm btn-warning' data-toggle='modal' data-target='#bookModal' href='editbook.jsp?bookId=" + b.getBookId() + "'>EDIT</button></td>");
+				str.append("<td><button type='button' class='btn btn-sm btn-danger' onclick='javascript:location.href='deleteAuthor?authorId="+b.getBookId()+"'>DELETE</button></td></tr>");
+			}
+			response.getWriter().append(str);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			response.getWriter().append(str);
+		}
+	}
+
 	
 	private void pageAuthors(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		List<Author> authors = new ArrayList<Author>();

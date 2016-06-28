@@ -242,6 +242,8 @@ public class AdministrativeService {
 		return null;
 	}
 	
+	
+	
 	public Book viewBookByID(Integer bookId) throws ClassNotFoundException, SQLException{
 		Book b = new Book();
 		b.setBookId(bookId);
@@ -335,11 +337,11 @@ public class AdministrativeService {
 		return null;
 	}
 	
-	public List<Author> viewAuthors(int pageNo) throws ClassNotFoundException, SQLException{
+	public List<Book> viewBooksBySearchString(String searchString, int pageNo) throws ClassNotFoundException, SQLException {
 		Connection conn = util.getConnection();
 		try{
-			AuthorDAO adao = new AuthorDAO(conn);
-			return adao.readAll(pageNo);
+			BookDAO bdao = new BookDAO(conn);
+			return bdao.readBySearchString(searchString, pageNo);
 		}catch (Exception e){
 			e.printStackTrace();
 		}finally{
@@ -347,6 +349,7 @@ public class AdministrativeService {
 		}
 		return null;
 	}
+	
 	
 	public List<Author> viewAuthorsFirstLevel(int pageNo) throws ClassNotFoundException, SQLException{
 		Connection conn = util.getConnection();
@@ -374,11 +377,37 @@ public class AdministrativeService {
 		return null;
 	}
 	
-	public List<Book> viewBooks() throws ClassNotFoundException, SQLException{
+	public Integer getBooksCount() throws ClassNotFoundException, SQLException{
 		Connection conn = util.getConnection();
 		try{
 			BookDAO bdao = new BookDAO(conn);
-			return bdao.readAll();
+			return bdao.getCount();
+		}catch (Exception e){
+			e.printStackTrace();
+		}finally{
+			conn.close();
+		}
+		return null;
+	}
+	
+	public List<Author> viewAuthors(int pageNo) throws ClassNotFoundException, SQLException{
+		Connection conn = util.getConnection();
+		try{
+			AuthorDAO adao = new AuthorDAO(conn);
+			return adao.readAll(pageNo);
+		}catch (Exception e){
+			e.printStackTrace();
+		}finally{
+			conn.close();
+		}
+		return null;
+	}
+	
+	public List<Book> viewBooks(int pageNo) throws ClassNotFoundException, SQLException{
+		Connection conn = util.getConnection();
+		try{
+			BookDAO bdao = new BookDAO(conn);
+			return bdao.readAll(pageNo);
 		}catch (Exception e){
 			e.printStackTrace();
 		}finally{

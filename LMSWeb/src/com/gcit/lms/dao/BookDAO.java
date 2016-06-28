@@ -44,8 +44,13 @@ public class BookDAO extends BaseDAO {
 		else
 			return true;
 	}
+	
+	public Integer getCount() throws ClassNotFoundException, SQLException{
+		return readCount("select count(*) as count from tbl_book", null);
+	}
 
-	public List<Book> readAll() throws ClassNotFoundException, SQLException{
+	public List<Book> readAll(int pageNo) throws ClassNotFoundException, SQLException{
+		setPageNo(pageNo);
 		return read("select * from tbl_book", null);
 	}
 	
@@ -59,6 +64,15 @@ public class BookDAO extends BaseDAO {
 			return b;
 		}
 		return null;
+	}
+	
+	public List<Book> readBySearchString(String searchString, int pageNo) throws ClassNotFoundException, SQLException {
+		setPageNo(pageNo);
+		if( searchString.equals("") )
+			searchString = "%%";
+		else
+			searchString = "%" + searchString + "%";
+		return read("select * from tbl_book where title like ?", new Object[] {searchString});
 	}
 	
 	public List<Book> viewAvailableBooks(Integer branchId) throws ClassNotFoundException, SQLException {
